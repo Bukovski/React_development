@@ -123,9 +123,8 @@ class NotesUsers extends Component {
                     validEditInput={ validEditInput }
                     validEditText={ validEditText }
                     
-                    saveEdit={ this.editNotes.bind(this, elem.id) }
-        />
-        :<ListNote key={ elem.id }
+                    saveEdit={ this.editNotes.bind(this, elem.id) } />
+        : <ListNote key={ elem.id }
                        notes={ elem }
                    
                        deleteIndex={ () => delIndexNote(elem.id) }
@@ -134,8 +133,7 @@ class NotesUsers extends Component {
                          updateNoteId: elem.id,
                          editInput: elem.title,
                          editText: elem.text
-                       }) }
-      />
+                       }) } />
     });
     
     return(

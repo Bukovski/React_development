@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import PostsLoad from './PostsLoad'
-// import NotesUsers from './NotesUsers'
-import WorkingPeople from './WorkingPeople'
+// import PostsLoad from '../containers//PostsLoad'
+// import NotesUsers from '../containers//NotesUsers'
+import WorkingPeople from '../containers/WorkingPeople'
 
 class App extends Component {
   

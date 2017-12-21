@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import faker from 'faker';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { newWorker } from '../../actions'
 
 import './style.css';
 import Pagination from './Pagination';
 import AddNewWorker from './AddNewWorker';
+
+
 
 /*
 1.+ Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата. Выведите
@@ -32,13 +38,7 @@ class WorkingPeople extends Component {
   
       pageOfItems: [],
   
-      searchCopy: [],
-  
-      valueFirstName: '',
-      valueLastName: '',
-      valueSalary: '',
-  
-      selectId: 'male'
+      searchCopy: []
     }
   };
   
@@ -123,31 +123,21 @@ class WorkingPeople extends Component {
   };
   
   //add new note
-  addNewWorker(event) {
-    event.preventDefault();
-    
-    const { workers, searchCopy } = this.state;
-    const { valueFirstName, valueLastName, valueSalary, selectId } = this.state;
-    
-    workers.push({id: workers.length + 1, firstName: valueFirstName,
-      lastName: valueLastName, salary: valueSalary, gender: selectId});
+  createNewWorker = (data) => {
+    //console.log('data', data)
+    const { newWorker } = this.props;
+    const items = data.valueForm;
   
-    this.setState({
-      workers,
-      searchCopy,
-      valueFirstName: '',
-      valueLastName: '',
-      valueSalary: ''
-    });
-  }
-  
+    newWorker(this.state.workers.length + 1,
+      items.firstName, items.lastName, items.salary, items.gender);
+  };
   
   render() {
-    const { pageOfItems, searchCopy,
-      valueFirstName, valueLastName,
-      valueSalary, selectId } = this.state;
+    const { workers } = this.props;
+    console.log('++--', workers);
     
-    //console.log('++--', pageOfItems);
+    
+    const { pageOfItems, searchCopy } = this.state;
     
     const listWorker = pageOfItems.map(elem => {
       return <tr key={ elem.id }>
@@ -183,22 +173,33 @@ class WorkingPeople extends Component {
         
         <Pagination items={ searchCopy } onChangePage={ this.onChangePage } pageSize={10}/>
   
-        <AddNewWorker valueFirstName={ valueFirstName }
-                      valueLastName={ valueLastName }
-                      valueSalary={ valueSalary }
-                      onChangeFirstName={ (event) => this.setState({valueFirstName: event}) }
-                      onChangeLastName={ (event) => this.setState({valueLastName: event}) }
-                      onChangeSalary={ (event) => this.setState({valueSalary: event}) }
-                      addWorkerSubmit={ this.addNewWorker.bind(this) }
-                      
-                      selectItem={['male', 'female']}
-                      selectValue={ selectId }
-                      selectChange={ (event) => this.setState({selectId: event.target.value}) }
-        />
-
+        <AddNewWorker createNewWorker={ this.createNewWorker }/>
+        
       </div>
     );
   }
 }
 
-export default WorkingPeople;
+/*WorkingPeople.propTypes = {
+  //reducer
+  notes: PropTypes.array.isRequired,
+  //action
+  newNotes: PropTypes.func.isRequired,
+  delIndexNote: PropTypes.func.isRequired,
+  editIndexNote: PropTypes.func.isRequired
+};*/
+
+function mapStateToProps(state) {
+  return {
+    workers: state.tableWorkers.workers
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    newWorker: bindActionCreators(newWorker, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkingPeople);
+//export default WorkingPeople;

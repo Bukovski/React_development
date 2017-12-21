@@ -1,4 +1,6 @@
-import { LOADED, NEW_NOTES, DELETE_INDEX_NOTE, EDIT_INDEX_NOTE } from '../constants';
+import { LOADED,
+  NEW_NOTES, DELETE_INDEX_NOTE, EDIT_INDEX_NOTE,
+  NEW_WORKER } from '../constants';
 
 //PostsLoad
 export function loadPosts(posts) {
@@ -7,6 +9,7 @@ export function loadPosts(posts) {
     payload: posts
   }
 }
+
 
 //NotesUsers
 const timeFormat = (date) => {
@@ -50,4 +53,18 @@ export function editIndexNote(id, title, text) {
     text
   }
 }
+
+
+//WorkingPeople
+export function newWorker(id, firstName, lastName, salary, gender) {
+  return {
+    type: NEW_WORKER,
+    payload: id,
+    firstName,
+    lastName,
+    salary,
+    gender
+  }
+}
+
 
