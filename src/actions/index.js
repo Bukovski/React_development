@@ -1,6 +1,6 @@
 import { LOADED,
   NEW_NOTES, DELETE_INDEX_NOTE, EDIT_INDEX_NOTE,
-  NEW_WORKER } from '../constants';
+  NEW_WORKER, FAKER_WORKER } from '../constants';
 
 //PostsLoad
 export function loadPosts(posts) {
@@ -59,11 +59,18 @@ export function editIndexNote(id, title, text) {
 export function newWorker(id, firstName, lastName, salary, gender) {
   return {
     type: NEW_WORKER,
-    payload: id,
+    id,
     firstName,
     lastName,
     salary,
     gender
+  }
+}
+
+export function fakeWorkers(arrNewWorkers) {
+  return {
+    type: FAKER_WORKER,
+    arrNewWorkers
   }
 }
 

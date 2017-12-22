@@ -53,12 +53,12 @@ class AddNewWorker extends Component {
     const { createNewWorker } = this.props;
   
     createNewWorker({ valueForm });
+  
+    this.setState({ valueForm: {} }); //cleared state
     
-    this.setState({
-      firstName: '',
-      valueLastName: '',
-      valueSalary: ''
-    });
+    for (let name in this.refs) { //cleared input value through refs
+      this.refs[name].value = ''
+    }
   }
   
   render() {
@@ -68,22 +68,22 @@ class AddNewWorker extends Component {
       <form onSubmit={ this.handleSubmitForm } onChange={ this.handleChangeForm }>
         <div className="form-inline">
           <input name="firstName" ref='firstName'
-                 type="text" title="First Name"
-                 className="form-control" placeholder="Enter first name"
+                 type="text" className="form-control"
+                 title="First Name" placeholder="Enter first name"
                  pattern="[а-яёА-ЯЁ\w]{3,40}" required
           />
           <input name="lastName" ref='lastName'
-                 type="text" title="Last Name"
-                 className="form-control" placeholder="Enter last name"
+                 type="text" className="form-control"
+                 title="Last Name" placeholder="Enter last name"
                  pattern="[а-яёА-ЯЁ\w]{3,40}" required
           />
           <input name="salary" ref='salary'
-                 type="number" title="Salary"
-                 className="form-control" placeholder="Enter salary"
+                 type="number" className="form-control"
+                 title="Salary" placeholder="Enter salary"
                  pattern="[0-9\.]{1,9}" required
           />
     
-          <select name="gender" ref='select'
+          <select name="gender"
                   className="form-control">
             { selectItem.map(elem => {
               return <option key={elem} value={ elem }>{ elem }</option>

@@ -8,3 +8,4 @@ export const EDIT_INDEX_NOTE = 'EDIT_INDEX_NOTE';
 
 //WorkingPeople
 export const NEW_WORKER = 'NEW_WORKER';
+export const FAKER_WORKER = 'FAKER_WORKER';

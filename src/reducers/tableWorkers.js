@@ -1,4 +1,4 @@
-import { NEW_WORKER } from '../constants';
+import { NEW_WORKER, FAKER_WORKER } from '../constants';
 
 const initialState = {
   workers: [
@@ -9,19 +9,20 @@ const initialState = {
   ]
 };
 
+
 export default function tableWorker(state = initialState, action) {
   switch (action.type) {
     
     case NEW_WORKER:
       return { ...state, workers: [...state.workers,
-        { id: action.payload, firstName: action.firstName,
+        { id: action.id, firstName: action.firstName,
           lastName: action.lastName, salary: action.salary, gender: action.gender }
       ] };
+  
+    case FAKER_WORKER:
+      return { ...state, workers: [...state.workers, ...action.arrNewWorkers] };
     
     default:
       return state
   }
 }
-
-
-console.log(initialState)

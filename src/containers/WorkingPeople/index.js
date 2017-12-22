@@ -3,11 +3,13 @@ import faker from 'faker';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { newWorker } from '../../actions'
+import { newWorker, fakeWorkers, searchWorker } from '../../actions'
 
 import './style.css';
 import Pagination from './Pagination';
 import AddNewWorker from './AddNewWorker';
+
+import SearchInput from './SearchInput';
 
 
 
@@ -28,17 +30,10 @@ class WorkingPeople extends Component {
   constructor() {
     super();
     this.state = {
-      workers: [
-        {id: 1, firstName: 'John', lastName: 'Dou', salary: 100, gender: 'male'},
-        {id: 2, firstName: 'Alessa', lastName: 'Gelespi', salary: 150, gender: 'female'},
-        {id: 3, firstName: 'Donald', lastName: 'Duck', salary: 130, gender: 'male'},
-        {id: 4, firstName: 'Joey', lastName: 'Tribiany', salary: 205, gender: 'male'}
-      ],
-      directionOfSort: 'DESC',
-  
+      searchResult: [],
+      
       pageOfItems: [],
-  
-      searchCopy: []
+      directionOfSort: 'DESC',
     }
   };
   
@@ -46,15 +41,21 @@ class WorkingPeople extends Component {
     this.buildFakeUser(25); //faker users
   }
   
-  componentDidMount() {
-    this.setState({
-      searchCopy: this.state.workers //it is copy array for search
-    })
+  componentDidUpdate(prevProps, prevState) {
+    const { workers } = this.props;
+    
+    if (workers !== prevProps.workers) {
+  
+      this.setState({
+        searchResult: workers //it is copy array for search
+      })
+    }
   }
   
   
   buildFakeUser(records) {
-    const { workers } = this.state;
+    const { workers, fakeWorkers } = this.props;
+
     const newFakeData = [];
     const lastElem = workers.length + 1;
     
@@ -72,12 +73,14 @@ class WorkingPeople extends Component {
       newFakeData.push(fakeData(lastElem + i ))
     }
     
-    this.setState({
-      workers: workers.concat(newFakeData)
-    });
+    fakeWorkers(newFakeData)
   }
   
   //sort
+  renderSortArrow (sortKey, sortDesc, sortId) {
+    return sortKey === sortId ? (sortDesc ? '↓' : '↑') : ''
+  }
+  
   compareBy(key) {
     const direction = this.state.directionOfSort;
     
@@ -90,13 +93,13 @@ class WorkingPeople extends Component {
   }
   
   sortBy(key) {
-    const { directionOfSort, searchCopy } = this.state;
+    const { directionOfSort, searchResult } = this.state;
     
-    let arrayCopy = [...searchCopy];
+    let arrayCopy = [...searchResult];
     arrayCopy.sort(this.compareBy(key));
     
     this.setState({
-      searchCopy: arrayCopy,
+      searchResult: arrayCopy,
       directionOfSort: (directionOfSort === 'ASC') ? 'DESC' : 'ASC'
     });
   }
@@ -108,37 +111,40 @@ class WorkingPeople extends Component {
   
   //search
   liveSearch = (event) => {
-    const { workers } = this.state;
-    const dataSearch = event.target.value.toLowerCase();
-    const result = workers.filter((elem) => {
-      const searchName = elem.firstName.toLowerCase();
-      const searchLastName= elem.lastName.toLowerCase();
-      
-      return (searchName.includes(dataSearch) || searchLastName.includes(dataSearch));
-    });
+    const { workers } = this.props;
+    
+    function objectContains (str) {
+      return (obj) => {
+        return (obj.firstName + obj.lastName + obj.salary).toLowerCase().includes(str)
+      }
+    }
+    
+    function filterSearch (data, filterString) {
+      return (filterString !== '') ? data.filter(objectContains(filterString.toLowerCase())) : data;
+    }
     
     this.setState({
-      searchCopy: (result.length) ? result : workers
-    });
+      searchResult: filterSearch(workers, event.target.value)
+    })
   };
   
   //add new note
   createNewWorker = (data) => {
-    //console.log('data', data)
-    const { newWorker } = this.props;
+    const { newWorker, workers } = this.props;
     const items = data.valueForm;
   
-    newWorker(this.state.workers.length + 1,
-      items.firstName, items.lastName, items.salary, items.gender);
+    newWorker(workers.length + 1, items.firstName, items.lastName, items.salary, items.gender);
   };
+  
   
   render() {
     const { workers } = this.props;
-    console.log('++--', workers);
+    //console.log('++--', workers);
     
+    const { pageOfItems, searchResult } = this.state;
     
-    const { pageOfItems, searchCopy } = this.state;
-    
+  
+    //const listWorker = searchResult.map(elem => {
     const listWorker = pageOfItems.map(elem => {
       return <tr key={ elem.id }>
         <td>{ elem.id }</td><td>{ elem.firstName }</td><td>{ elem.lastName}</td>
@@ -148,13 +154,8 @@ class WorkingPeople extends Component {
     
     return(
       <div>
-        
-        <div className="input-group">
-          <input type="text" className="form-control" placeholder="Search" onChange={ this.liveSearch }/>
-          <div className="input-group-addon">
-            <i className="glyphicon glyphicon-search"></i>
-          </div>
-        </div>
+  
+        <SearchInput liveSearch={ this.liveSearch } />
         
         <table className="table table-striped">
           <thead>
@@ -171,7 +172,9 @@ class WorkingPeople extends Component {
           </tbody>
         </table>
         
-        <Pagination items={ searchCopy } onChangePage={ this.onChangePage } pageSize={10}/>
+        { (searchResult.length) ?
+          <Pagination items={ searchResult } onChangePage={ this.onChangePage } pageSize={10}/>
+          : '' }
   
         <AddNewWorker createNewWorker={ this.createNewWorker }/>
         
@@ -198,8 +201,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     newWorker: bindActionCreators(newWorker, dispatch),
+    fakeWorkers: bindActionCreators(fakeWorkers, dispatch)
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorkingPeople);
-//export default WorkingPeople;
