@@ -77,10 +77,6 @@ class WorkingPeople extends Component {
   }
   
   //sort
-  renderSortArrow (sortKey, sortDesc, sortId) {
-    return sortKey === sortId ? (sortDesc ? '↓' : '↑') : ''
-  }
-  
   compareBy(key) {
     const direction = this.state.directionOfSort;
     
@@ -139,12 +135,8 @@ class WorkingPeople extends Component {
   
   render() {
     const { workers } = this.props;
-    //console.log('++--', workers);
-    
     const { pageOfItems, searchResult } = this.state;
     
-  
-    //const listWorker = searchResult.map(elem => {
     const listWorker = pageOfItems.map(elem => {
       return <tr key={ elem.id }>
         <td>{ elem.id }</td><td>{ elem.firstName }</td><td>{ elem.lastName}</td>
@@ -154,7 +146,6 @@ class WorkingPeople extends Component {
     
     return(
       <div>
-  
         <SearchInput liveSearch={ this.liveSearch } />
         
         <table className="table table-striped">
@@ -183,14 +174,6 @@ class WorkingPeople extends Component {
   }
 }
 
-/*WorkingPeople.propTypes = {
-  //reducer
-  notes: PropTypes.array.isRequired,
-  //action
-  newNotes: PropTypes.func.isRequired,
-  delIndexNote: PropTypes.func.isRequired,
-  editIndexNote: PropTypes.func.isRequired
-};*/
 
 function mapStateToProps(state) {
   return {
@@ -204,5 +187,6 @@ function mapDispatchToProps(dispatch) {
     fakeWorkers: bindActionCreators(fakeWorkers, dispatch)
   }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorkingPeople);

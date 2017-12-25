@@ -1,6 +1,7 @@
 import { LOADED,
   NEW_NOTES, DELETE_INDEX_NOTE, EDIT_INDEX_NOTE,
-  NEW_WORKER, FAKER_WORKER } from '../constants';
+  NEW_WORKER, FAKER_WORKER,
+  ADD_LIKE, ADD_DISLIKE } from '../constants';
 
 //PostsLoad
 export function loadPosts(posts) {
@@ -71,6 +72,20 @@ export function fakeWorkers(arrNewWorkers) {
   return {
     type: FAKER_WORKER,
     arrNewWorkers
+  }
+}
+
+
+//ImmutableVote
+export function like() {
+  return {
+    type: ADD_LIKE
+  }
+}
+
+export function dislike() {
+  return {
+    type: ADD_DISLIKE
   }
 }
 

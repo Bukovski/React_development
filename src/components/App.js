@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 // import PostsLoad from '../containers//PostsLoad'
 // import NotesUsers from '../containers//NotesUsers'
-import WorkingPeople from '../containers/WorkingPeople'
+//import WorkingPeople from '../containers/WorkingPeople'
+import ImmutableVote from '../containers/ImmutableVote'
+
 
 class App extends Component {
   
@@ -12,7 +14,9 @@ class App extends Component {
         <hr/>
         {/*<NotesUsers/>*/}
         <hr/>
-        <WorkingPeople/>
+        {/*<WorkingPeople/>*/}
+        <hr/>
+        <ImmutableVote/>
       </div>
     );
   }
