@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 // import PostsLoad from '../containers//PostsLoad'
 // import NotesUsers from '../containers//NotesUsers'
 //import WorkingPeople from '../containers/WorkingPeople'
-import ImmutableVote from '../containers/ImmutableVote'
+//import ImmutableVote from '../containers/ImmutableVote'
+//import ImmutableTodo from '../containers/ImmutableTodo'
+import ImmutableTodoList from '../containers/ImmutableTodoList'
 
 
 class App extends Component {
@@ -16,7 +18,11 @@ class App extends Component {
         <hr/>
         {/*<WorkingPeople/>*/}
         <hr/>
-        <ImmutableVote/>
+        {/*<ImmutableVote/>*/}
+        <hr/>
+        {/*<ImmutableTodo/>*/}
+        <hr/>
+        <ImmutableTodoList/>
       </div>
     );
   }

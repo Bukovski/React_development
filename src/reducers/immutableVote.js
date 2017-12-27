@@ -2,8 +2,8 @@ import { ADD_LIKE, ADD_DISLIKE } from '../constants';
 import { Map } from 'immutable'; //https://github.com/facebook/immutable-js
 
 
-const initialState = Map({
 //const initialState = ({
+const initialState = Map({
   views: 0,
   likes: 0,
   dislikes: 0
