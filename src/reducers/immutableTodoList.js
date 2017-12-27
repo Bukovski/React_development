@@ -23,13 +23,18 @@ export default function postLoad(state = initialState, action) {
   
     case 'ADD_NEW_TODO':
       const { title, text } = action.data;
-      return state.update('todo', todo => todo.push(new TodoRecord({
+      /*return state.update('todo', todo => todo.push(new TodoRecord({
         id: moment().valueOf(), title, text, done: false
-      })) );
+      })) );*/
+      return state.set('todo', state.get('todo').push(new TodoRecord({
+        id: moment().valueOf(), title, text, done: false
+      }) ));
   
     case 'REMOVE_LAST_TODO':
-      const lastId = state.get('todo').last().id;
-      return state.update('todo', todo => todo.filter(elem => elem.id !== lastId));
+      /*const lastId = state.get('todo').last().id;
+      return state.update('todo', todo => todo.filter(elem => elem.id !== lastId));*/
+      const lastElem = state.get('todo').size - 1;
+      return state.set('todo', state.get('todo').splice(lastElem, 1));
       
     case 'REMOVE_INDEX_TODO':
       return state.update('todo', todo => todo.filter(elem => elem.id !== action.id));
@@ -45,7 +50,7 @@ export default function postLoad(state = initialState, action) {
     case 'CASH_UPDATE_TODO':
       const getData = action.data;
       return state.set('cashUpdate', new TodoRecord({
-        id: getData.id, title: getData.title, text: getData.title, done: false
+        id: getData.id, title: getData.title, text: getData.text, done: false
       }));
   
     case 'CASH_CLEANER_TODO':

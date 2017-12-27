@@ -64,11 +64,11 @@ class ImmutableTodoList extends Component {
     this.clearChangeTodo();
   }
   
+  componentClassName = (done) => done ? 'status-done' : null;
   
   
   render() {
     const { todo, removeLastTodo, updateTodo } = this.props;
-    const componentClassName = (done) => done ? 'status-done' : null;
     
     return(
       <div>
@@ -77,7 +77,7 @@ class ImmutableTodoList extends Component {
         <ul>
           { todo.map((elem) => {
             return <li key={ elem.id }
-                       className={ componentClassName(elem.done) }>
+                       className={ this.componentClassName(elem.done) }>
               <span onClick={ () => this.doneUndone(elem.id) }>
                 { elem.title } : { elem.text } {' '}
               </span>
@@ -124,7 +124,8 @@ class ImmutableTodoList extends Component {
 
 ImmutableTodoList.defaultProps = {
   todo: [],
-  updateTodo: false
+  updateTodo: false,
+  cashUpdate: {}
 };
 
 ImmutableTodoList.propTypes = {
