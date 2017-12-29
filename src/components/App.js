@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 //import WorkingPeople from '../containers/WorkingPeople'
 //import ImmutableVote from '../containers/ImmutableVote'
 //import ImmutableTodo from '../containers/ImmutableTodo'
-import ImmutableTodoList from '../containers/ImmutableTodoList'
+//import ImmutableTodoList from '../containers/ImmutableTodoList'
+import ImmutableProduct from '../containers/ImmutableProduct'
 
 
 class App extends Component {
@@ -22,7 +23,9 @@ class App extends Component {
         <hr/>
         {/*<ImmutableTodo/>*/}
         <hr/>
-        <ImmutableTodoList/>
+        {/*<ImmutableTodoList/>*/}
+        <hr/>
+        <ImmutableProduct/>
       </div>
     );
   }
